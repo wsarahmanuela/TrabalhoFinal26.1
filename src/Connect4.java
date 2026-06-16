@@ -1,3 +1,4 @@
+import java.util.Random;
 import java.util.Scanner;
 
 public class Connect4 {
@@ -7,6 +8,7 @@ public class Connect4 {
         for (int linha = 0; linha < 6; linha++) {
             for (int colunas = 0; colunas < 7; colunas++) {
                 tabuleiro[linha][colunas] = 'B';
+                
             }
         }
     }
@@ -44,12 +46,14 @@ public class Connect4 {
         return new char[] { corJogador, corComputador };
     }
 
-    public void adicionarPeca(char cor, char[][] tabuleiro, Scanner sc) {
+    public void adicionarPeca(char corJogador, char corComputador, char[][] tabuleiro, Scanner sc) {//aqui do jogador 
         int coluna;
-        ImprimirTabuleiro(tabuleiro);
+        //ImprimirTabuleiro(tabuleiro);
+        System.out.println();
+        System.out.println("Agora é a sua vez!");
         do {
             System.out.println("Digite a coluna que deseja acrescentar a peça: (1 á 7)");
-            coluna = sc.nextInt() - 1;
+            coluna = sc.nextInt() - 1;  
 
             if (colunaCheia(tabuleiro, coluna)) {
                 System.out.println("Coluna cheia! Escolha outra");
@@ -60,11 +64,12 @@ public class Connect4 {
         // roda as linhas de baixo pra cima colocando sempre na mais baixa disponivel
         for (int linha = 5; linha >= 0; linha--) {
             if (tabuleiro[linha][coluna] == 'B') {
-                tabuleiro[linha][coluna] = cor;
+                tabuleiro[linha][coluna] = corJogador;
                 break;
             }
         }
         ImprimirTabuleiro(tabuleiro);
+        jogadaComputador(corJogador, corComputador, tabuleiro, sc);
     }
 
     public boolean colunaCheia(char[][] tabuleiro, int coluna) {
@@ -73,6 +78,28 @@ public class Connect4 {
             return true;
         }
         return false;
+    }
+
+    public void jogadaComputador(char corJogador, char corComputador, char[][] tabuleiro, Scanner sc) {// aqui vai ser a jogada do computador
+        int coluna;
+        //ImprimirTabuleiro(tabuleiro);
+        Random random = new Random();
+        System.out.println();
+        System.out.println("Agora é o computador");
+
+        do {
+            coluna = random.nextInt(7);// gera um numero de 1 a 7
+        } while (colunaCheia(tabuleiro, coluna));// repete enquanto a coluna estiver cheia
+
+        for (int linha = 5; linha >= 0; linha--) {
+            if (tabuleiro[linha][coluna] == 'B') {
+                tabuleiro[linha][coluna] = corComputador;
+                break;
+            }
+        }
+
+        ImprimirTabuleiro(tabuleiro);
+        adicionarPeca(corJogador, corComputador, tabuleiro, sc);
     }
 
     public Connect4() {
@@ -84,8 +111,8 @@ public class Connect4 {
         char corJogador = cores[0]; // cor que o jogador escolheu
         char corComputador = cores[1]; // cor do computador
 
-        adicionarPeca(corJogador, tabuleiro, sc);
-
+        adicionarPeca(corJogador, corComputador, tabuleiro, sc);
+        jogadaComputador(corJogador, corComputador, tabuleiro, sc);
         sc.close();
     }
 
