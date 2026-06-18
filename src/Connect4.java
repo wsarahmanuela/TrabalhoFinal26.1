@@ -8,7 +8,7 @@ public class Connect4 {
         for (int linha = 0; linha < 6; linha++) {
             for (int colunas = 0; colunas < 7; colunas++) {
                 tabuleiro[linha][colunas] = 'B';
-                
+
             }
         }
     }
@@ -46,14 +46,14 @@ public class Connect4 {
         return new char[] { corJogador, corComputador };
     }
 
-    public void adicionarPeca(char corJogador, char corComputador, char[][] tabuleiro, Scanner sc) {//aqui do jogador 
+    public void adicionarPeca(char corJogador, char corComputador, char[][] tabuleiro, Scanner sc) {// aqui do jogador
         int coluna;
-        //ImprimirTabuleiro(tabuleiro);
+        // ImprimirTabuleiro(tabuleiro);
         System.out.println();
         System.out.println("Agora é a sua vez!");
         do {
             System.out.println("Digite a coluna que deseja acrescentar a peça: (1 á 7)");
-            coluna = sc.nextInt() - 1;  
+            coluna = sc.nextInt() - 1;
 
             if (colunaCheia(tabuleiro, coluna)) {
                 System.out.println("Coluna cheia! Escolha outra");
@@ -80,9 +80,9 @@ public class Connect4 {
         return false;
     }
 
-    public void jogadaComputador(char corJogador, char corComputador, char[][] tabuleiro, Scanner sc) {// aqui vai ser a jogada do computador
+    public void jogadaComputador(char corJogador, char corComputador, char[][] tabuleiro, Scanner sc) {// aqui vai ser a jogada do                                                                                                                                                                                                   // computador
         int coluna;
-        //ImprimirTabuleiro(tabuleiro);
+        // ImprimirTabuleiro(tabuleiro);
         Random random = new Random();
         System.out.println();
         System.out.println("Agora é o computador");
@@ -102,6 +102,48 @@ public class Connect4 {
         adicionarPeca(corJogador, corComputador, tabuleiro, sc);
     }
 
+    public boolean verificarJOgada(char[][] tabuleiro, char cor) {
+        // horizontal
+        for (int linha = 0; linha < 6; linha++) {
+            for (int coluna = 0; coluna < 4; coluna++) {
+                if (tabuleiro[linha][coluna] == cor && tabuleiro[linha][coluna + 1] == cor
+                        && tabuleiro[linha][coluna + 2] == cor && tabuleiro[linha][coluna + 3] == cor) {
+                    return true;
+                }
+            }
+        }
+        // vertical
+        for (int linha = 0; linha < 3; linha++) {
+            for (int coluna = 0; coluna < 7; coluna++) {
+                if (tabuleiro[linha][coluna] == cor && tabuleiro[linha + 1][coluna] == cor
+                        && tabuleiro[linha + 2][coluna] == cor && tabuleiro[linha + 3][coluna] == cor) {
+                    return true;
+                }
+            }
+        }
+        // diagonal
+        for (int linha = 0; linha < 3; linha++) {
+            for (int coluna = 0; coluna < 4; coluna++) {
+                if (tabuleiro[linha][coluna] == cor && tabuleiro[linha + 1][coluna + 1] == cor
+                        && tabuleiro[linha + 2][coluna + 2] == cor && tabuleiro[linha + 3][coluna + 3] == cor) {
+                    return true;
+                }
+            }
+        }
+
+        for (int linha = 3; linha < 6; linha++) {
+            for (int coluna = 0; coluna < 4; coluna++) {
+                if (tabuleiro[linha][coluna] == cor && tabuleiro[linha - 1][coluna + 1] == cor
+                        && tabuleiro[linha - 2][coluna + 2] == cor && tabuleiro[linha - 3][coluna + 3] == cor) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    
+
     public Connect4() {
         // todos os atributos devem ser no construtor
         Scanner sc = new Scanner(System.in);
@@ -113,6 +155,7 @@ public class Connect4 {
 
         adicionarPeca(corJogador, corComputador, tabuleiro, sc);
         jogadaComputador(corJogador, corComputador, tabuleiro, sc);
+        verificarJOgada(tabuleiro, corComputador);
         sc.close();
     }
 
