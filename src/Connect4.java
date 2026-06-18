@@ -3,6 +3,8 @@ import java.util.Scanner;
 
 public class Connect4 {
 
+    Scanner sc = new Scanner(System.in);
+
     public void tabuleiroBranco(char[][] tabuleiro) {
         // adiciona ao tabuleiro "B" wm todas as linhas e colunas
         for (int linha = 0; linha < 6; linha++) {
@@ -24,6 +26,34 @@ public class Connect4 {
         }
         System.out.println("1 2 3 4 5 6 7");
         // contagem de colunas
+    }
+
+    public char[] verficarQuemComeca(Scanner sc) {
+        Random random = new Random();
+        int sorteio = random.nextInt(2);
+        char corJogador;
+        char corComputador;
+        if (sorteio == 0) {
+            System.out.println("Jogador começa");
+            char[] cores = escolherCor(sc);
+            corJogador = cores[0];
+            corComputador = cores[1];
+        } else {
+            System.out.println("Computador começa");
+            char sorteioCores = random.nextInt(2) == 0 ? 'v' : 'a';
+            if (sorteioCores == 'v') {
+                corJogador = 'v';
+                corComputador = 'a';
+                System.out.println("Computador escolheu vermelho. Você é azul");
+            } else {
+                corJogador = 'a';
+                corComputador = 'v';
+                System.out.println("Computador escolheu azul. Você é vermelho");
+            }
+           
+        }
+        return new char[] { corJogador, corComputador };
+      
     }
 
     public char[] escolherCor(Scanner sc) {
@@ -80,7 +110,9 @@ public class Connect4 {
         return false;
     }
 
-    public void jogadaComputador(char corJogador, char corComputador, char[][] tabuleiro, Scanner sc) {// aqui vai ser a jogada do                                                                                                                                                                                                   // computador
+    public void jogadaComputador(char corJogador, char corComputador, char[][] tabuleiro, Scanner sc) {// aqui vai ser a
+                                                                                                       // jogada do //
+                                                                                                       // computador
         int coluna;
         // ImprimirTabuleiro(tabuleiro);
         Random random = new Random();
@@ -142,14 +174,13 @@ public class Connect4 {
         return false;
     }
 
-    
-
     public Connect4() {
         // todos os atributos devem ser no construtor
         Scanner sc = new Scanner(System.in);
         char tabuleiro[][] = new char[6][7];
         tabuleiroBranco(tabuleiro);
-        char[] cores = escolherCor(sc);
+        char[] cores = verficarQuemComeca(sc);
+        cores = escolherCor(sc);
         char corJogador = cores[0]; // cor que o jogador escolheu
         char corComputador = cores[1]; // cor do computador
 
