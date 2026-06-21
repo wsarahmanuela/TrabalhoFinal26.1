@@ -50,10 +50,10 @@ public class Connect4 {
                 corComputador = 'v';
                 System.out.println("Computador escolheu azul. Você é vermelho");
             }
-           
+
         }
         return new char[] { corJogador, corComputador };
-      
+
     }
 
     public char[] escolherCor(Scanner sc) {
@@ -172,6 +172,16 @@ public class Connect4 {
             }
         }
         return false;
+    }
+
+    public void Jogo(char corJogador, char corComputador, char[][] tabuleiro, Scanner sc){
+        while (true) {
+          verficarQuemComeca(sc);
+          jogadaComputador(corJogador, corComputador, tabuleiro, sc);
+          adicionarPeca(corJogador, corComputador, tabuleiro, sc);
+
+          
+        }
     }
 
     public Connect4() {
