@@ -19,7 +19,7 @@ public class Connect4 {
         for (int linha = 0; linha < 6; linha++) {
             for (int colunas = 0; colunas < 7; colunas++) {
                 System.out.print(tabuleiro[linha][colunas] + " ");
-
+                
             }
 
             System.out.println();
@@ -28,7 +28,7 @@ public class Connect4 {
         // contagem de colunas
     }
 
-    public char[] verficarQuemComeca(Scanner sc) {
+    public char[] verficarQuemComeca(Scanner sc, char[][] tabuleiro) {
         Random random = new Random();
         int sorteio = random.nextInt(2);
         char corJogador;
@@ -38,20 +38,22 @@ public class Connect4 {
             char[] cores = escolherCor(sc);
             corJogador = cores[0];
             corComputador = cores[1];
+            adicionarPeca(corJogador, corComputador, tabuleiro, sc); //ai se for o jogador, ta conseguindo chamar aqui
         } else {
             System.out.println("Computador começa");
             char sorteioCores = random.nextInt(2) == 0 ? 'v' : 'a';
             if (sorteioCores == 'v') {
-                corJogador = 'v';
-                corComputador = 'a';
-                System.out.println("Computador escolheu vermelho. Você é azul");
-            } else {
                 corJogador = 'a';
                 corComputador = 'v';
+                System.out.println("Computador escolheu vermelho. Você é azul");
+            } else {
+                corJogador = 'v';
+                corComputador = 'a';
                 System.out.println("Computador escolheu azul. Você é vermelho");
             }
 
         }
+        jogadaComputador(corJogador, corComputador, tabuleiro, sc); // computador começa aqui
         return new char[] { corJogador, corComputador };
 
     }
@@ -68,12 +70,18 @@ public class Connect4 {
             corJogador = 'v';
             corComputador = 'a';
             System.out.println("Voce escolheu vermelho. Computador é azul");
-        } else {
+        } else if (cor == 'a') {
             corJogador = 'a';
             corComputador = 'v';
             System.out.println("Voce escolheu azul. Computador é vermelho");
+        } else {
+            System.out.println("Você so pode digitar A para azul e V para vermelho");
+            return escolherCor(sc);//coloquei isso para sempre pedir de nvo caso ele coloque outra letra
         }
+        //jogadaComputador(corJogador, corComputador, tabuleiro, sc); // computador começa aqui
+
         return new char[] { corJogador, corComputador };
+
     }
 
     public void adicionarPeca(char corJogador, char corComputador, char[][] tabuleiro, Scanner sc) {// aqui do jogador
@@ -103,7 +111,7 @@ public class Connect4 {
     }
 
     public boolean colunaCheia(char[][] tabuleiro, int coluna) {
-        // se a ultima linha da coluna não for b entao está cheia
+        // se a ultima linha da coluna não for b entao esta cheia
         if (tabuleiro[0][coluna] != 'B') {
             return true;
         }
@@ -189,14 +197,14 @@ public class Connect4 {
         Scanner sc = new Scanner(System.in);
         char tabuleiro[][] = new char[6][7];
         tabuleiroBranco(tabuleiro);
-        char[] cores = verficarQuemComeca(sc);
-        cores = escolherCor(sc);
+        char[] cores = verficarQuemComeca(sc, tabuleiro);// coloquei um paraemtro pq tava voltando null, por isso agora tem o tabuleiro
+  
         char corJogador = cores[0]; // cor que o jogador escolheu
         char corComputador = cores[1]; // cor do computador
 
-        adicionarPeca(corJogador, corComputador, tabuleiro, sc);
-        jogadaComputador(corJogador, corComputador, tabuleiro, sc);
-        verificarJOgada(tabuleiro, corComputador);
+        //adicionarPeca(corJogador, corComputador, tabuleiro, sc);
+        //jogadaComputador(corJogador, corComputador, tabuleiro, sc);
+        //verificarJOgada(tabuleiro, corComputador);
         sc.close();
     }
 
