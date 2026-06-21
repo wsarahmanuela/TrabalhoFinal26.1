@@ -16,6 +16,9 @@ public class Connect4 {
     }
 
     public void ImprimirTabuleiro(char[][] tabuleiro) {
+        System.out.println();
+        System.out.println("-----------------------------");
+        System.out.println();
         for (int linha = 0; linha < 6; linha++) {
             for (int colunas = 0; colunas < 7; colunas++) {
                 System.out.print(tabuleiro[linha][colunas] + " ");
@@ -196,70 +199,44 @@ public class Connect4 {
 
         do {
             tabuleiroBranco(tabuleiro);
+
             char[] cores = verficarQuemComeca(sc, tabuleiro);
             char corJogador = cores[0];
             char corComputador = cores[1];
-            char quemComeca = cores[2];
-
-            // Primeira jogada
-            if (quemComeca == 'j') {
-                adicionarPeca(corJogador, corComputador, tabuleiro, sc);
-            } else {
-                jogadaComputador(corJogador, corComputador, tabuleiro, sc);
-            }
+            char quemComeca = cores[2]; 
 
             while (true) {
 
                 ImprimirTabuleiro(tabuleiro);
 
-                // Verifica se alguém ganhou após a primeira jogada
-                if (verificarJOgada(tabuleiro, corJogador)) {
-                    System.out.println("Você venceu!");
-                    break;
-                }
+                if (quemComeca == 'j') {
+                    adicionarPeca(corJogador, corComputador, tabuleiro, sc);
 
-                if (verificarJOgada(tabuleiro, corComputador)) {
-                    System.out.println("Computador venceu!");
-                    break;
-                }
+                    if (verificarJOgada(tabuleiro, corJogador)) {
+                        ImprimirTabuleiro(tabuleiro);
+                        System.out.println("Você venceu!");
+                        break;
+                    }
+                    quemComeca = 'c';
 
+                } else {
+                    jogadaComputador(corJogador, corComputador, tabuleiro, sc);
+
+                    if (verificarJOgada(tabuleiro, corComputador)) {
+                        ImprimirTabuleiro(tabuleiro);
+                        System.out.println("Computador venceu!");
+                        break;
+                    }
+                    quemComeca = 'j';
+                }
                 if (verificarEmpate(tabuleiro)) {
-                    System.out.println("Empate!");
-                    break;
-                }
-
-                // Jogada do jogador
-                adicionarPeca(corJogador, corComputador, tabuleiro, sc);
-
-                ImprimirTabuleiro(tabuleiro);
-
-                if (verificarJOgada(tabuleiro, corJogador)) {
-                    System.out.println("Você venceu!");
-                    break;
-                }
-
-                if (verificarEmpate(tabuleiro)) {
-                    System.out.println("Empate!");
-                    break;
-                }
-
-                // Jogada do computador
-                jogadaComputador(corJogador, corComputador, tabuleiro, sc);
-
-                ImprimirTabuleiro(tabuleiro);
-
-                if (verificarJOgada(tabuleiro, corComputador)) {
-                    System.out.println("Computador venceu!");
-                    break;
-                }
-
-                if (verificarEmpate(tabuleiro)) {
+                    ImprimirTabuleiro(tabuleiro);
                     System.out.println("Empate!");
                     break;
                 }
             }
 
-            System.out.println("Deseja jogar novamente? (s / n)");
+            System.out.println("Deseja jogar novamente? (s/n)");
             resposta = sc.next().charAt(0);
 
         } while (resposta == 's' || resposta == 'S');
