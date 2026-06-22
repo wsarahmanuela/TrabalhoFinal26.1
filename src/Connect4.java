@@ -42,11 +42,12 @@ public class Connect4 {
             char[] cores = escolherCor(sc);
             corJogador = cores[0];
             corComputador = cores[1];
-            quemComeca = 'j';
+            quemComeca = 'j'; // aqui o jogador que começa
         } else {
             System.out.println("Computador começa");
             quemComeca = 'c';
-            char sorteioCores = random.nextInt(2) == 0 ? 'v' : 'a';
+            char sorteioCores = random.nextInt(2) == 0 ? 'v' : 'a';// computador ta sorteando uma cor aleatorio (azul ou
+                                                                   // vermelho)
             if (sorteioCores == 'v') {
                 corJogador = 'a';
                 corComputador = 'v';
@@ -89,17 +90,26 @@ public class Connect4 {
     }
 
     public void adicionarPeca(char corJogador, char corComputador, char[][] tabuleiro, Scanner sc) {// aqui do jogador
+                                                                                                    // PARAMETROSSSSS
         int coluna;
         // ImprimirTabuleiro(tabuleiro);
         System.out.println();
-        System.out.println("Agora é a sua vez!");
+        System.out.println("Agora e a sua vez!");
         System.out.println();
         do {
-            System.out.println("Digite a coluna que deseja acrescentar a peça: (1 á 7)");
+            System.out.println("Digite a coluna que deseja acrescentar a peça: (1 a 7)");
+            while (!sc.hasNextInt()) {
+                System.out.println("Voce tem que digitar um numero de 1 ate 7");
+                sc.next();
+            }
             coluna = sc.nextInt() - 1;
+            if (coluna > 8 && coluna < 0) {
+                System.out.println("Tem que digitar 1 ate 7");
 
+            }
             if (colunaCheia(tabuleiro, coluna)) {
                 System.out.println("Coluna cheia! Escolha outra");
+
             }
 
         } while (colunaCheia(tabuleiro, coluna));// repete enquanto a coluna estiver cheia
@@ -171,7 +181,7 @@ public class Connect4 {
                 }
             }
         }
-
+        // diaginal subindo
         for (int linha = 3; linha < 6; linha++) {
             for (int coluna = 0; coluna < 4; coluna++) {
                 if (tabuleiro[linha][coluna] == cor && tabuleiro[linha - 1][coluna + 1] == cor
@@ -203,7 +213,7 @@ public class Connect4 {
             char[] cores = verficarQuemComeca(sc, tabuleiro);
             char corJogador = cores[0];
             char corComputador = cores[1];
-            char quemComeca = cores[2]; 
+            char quemComeca = cores[2];
 
             while (true) {
 
@@ -236,8 +246,16 @@ public class Connect4 {
                 }
             }
 
-            System.out.println("Deseja jogar novamente? (s/n)");
-            resposta = sc.next().charAt(0);
+            do {
+                System.out.println("Deseja jogar novamente? (s/n)");
+                resposta = sc.next().charAt(0);
+
+                if (resposta != 's' && resposta != 'S' && resposta != 'n' && resposta != 'N') {
+                    System.out.println("Você so pode digitar s ou n");
+                    
+                }
+
+            } while (resposta != 's' && resposta != 'S' && resposta != 'n' && resposta != 'N');
 
         } while (resposta == 's' || resposta == 'S');
 
