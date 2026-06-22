@@ -172,7 +172,7 @@ public class Connect4 {
                 }
             }
         }
-        // diagonal
+        // diagonal descendo
         for (int linha = 0; linha < 3; linha++) {
             for (int coluna = 0; coluna < 4; coluna++) {
                 if (tabuleiro[linha][coluna] == cor && tabuleiro[linha + 1][coluna + 1] == cor
@@ -204,7 +204,7 @@ public class Connect4 {
         return true;// empate
     }
 
-    public void Jogo(char[][] tabuleiro, Scanner sc) {
+    public void jogo(char[][] tabuleiro, Scanner sc) {
         char resposta;
 
         do {
@@ -267,7 +267,7 @@ public class Connect4 {
         Scanner sc = new Scanner(System.in);
         char tabuleiro[][] = new char[6][7];
 
-        Jogo(tabuleiro, sc);
+        jogo(tabuleiro, sc);
 
         sc.close();
     }
